@@ -19,7 +19,8 @@ class Product(models.Model):
     icon = ImageField(null=True, blank=True)
     price = models.DecimalField(decimal_places=2, max_digits=7)
     countInStock = models.IntegerField()
-    createdAt = models.DateTimeField(auto_now_add=True)
+    createdAt = models.DateTimeField(
+        auto_now_add=True)
 
     def __str__(self):
         return f"{self.name}, Category: {self.category}"

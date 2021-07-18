@@ -85,6 +85,9 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+DATETIME_FORMAT = '%m/%d/%Y %H:%M'
+USE_L10N = False
+USE_TZ = True
 
 
 # Password validation
