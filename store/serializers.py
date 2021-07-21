@@ -5,21 +5,25 @@ from .models import Product
 from .models import Category
 from rest_framework.serializers import ModelSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UserSerializer(serializers.ModelSerializer):
-    #    name = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
-        fields = ['id', 'username']
+        fields = ['id', 'username', 'email', 'is_staff']
 
 
-"""   def get_name(self, obj):
-        name = obj.first_name
-        if name == "":
-            name = obj.email
-        return name """
+class UserSerializerWithToken(UserSerializer):
+    token = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        fields = ['id', 'username', 'email', 'is_staff', 'token']
+
+    def get_token(self, obj):
+        token = RefreshToken.for_user(obj)
+        return str(token)
 
 
 class CategorySerializer(ModelSerializer):
