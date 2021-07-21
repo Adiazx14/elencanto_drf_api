@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
-from .serializers import CategorySerializer, ProductSerializer, MyTokenObtainPairSerializer, UserSerializer
+from django.contrib.auth.hashers import make_password
+from .serializers import CategorySerializer, ProductSerializer, MyTokenObtainPairSerializer, UserSerializer, UserSerializerWithToken
 from .models import Category, Product
 from django.http import HttpResponse
 from rest_framework.views import APIView, Response
@@ -23,10 +24,29 @@ class ProductsView(ListAPIView):
     serializer_class = ProductSerializer
 
 
-class UsersView(ListAPIView):
+class UsersView(APIView):
     permission_classes = [IsAdminUser]
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+
+    def get(self, request):
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        data = request.data
+
+        try:
+            user = User.objects.create(
+                first_name=data["name"],
+                email=data['email'],
+                username=data['email'],
+                password=make_password(data['password'])
+            )
+            serializer = UserSerializerWithToken(user)
+            return Response(serializer.data)
+
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserView(APIView):
