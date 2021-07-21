@@ -1,8 +1,25 @@
+from django.contrib.auth.models import User
 from django.db.models import fields
+from rest_framework import serializers
 from .models import Product
 from .models import Category
 from rest_framework.serializers import ModelSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+
+class UserSerializer(serializers.ModelSerializer):
+    #    name = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username']
+
+
+"""   def get_name(self, obj):
+        name = obj.first_name
+        if name == "":
+            name = obj.email
+        return name """
 
 
 class CategorySerializer(ModelSerializer):
