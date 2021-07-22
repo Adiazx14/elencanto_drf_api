@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.fields.files import ImageField
-
+from django.contrib.auth.models import User
+from django.db.models.fields.related import ForeignKey
 # Create your models here.
 
 
@@ -24,3 +25,31 @@ class Product(models.Model):
 
     def __str__(self):
         return f"{self.name}, Category: {self.category}"
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    payment_method = models.CharField(max_length=100)
+    shipping_price = models.DecimalField(
+        max_digits=7, decimal_places=2, blank=True, null=True)
+    total_price = models.DecimalField(max_digits=7, decimal_places=2)
+    is_paid = models.BooleanField(default=False)
+    paid_at = models.DateTimeField(null=True, blank=True)
+    is_delivered = models.BooleanField(default=False)
+    delivered_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.created_at} by {self.user}"
+
+
+class OrderItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    qty = models.IntegerField(blank=True, null=True, default=1)
+    price = models.DecimalField(
+        max_digits=7, decimal_places=2, null=True, blank=True)
+    image = models.CharField(max_length=400, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
