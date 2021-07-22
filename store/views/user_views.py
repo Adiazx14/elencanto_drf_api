@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from rest_framework import serializers
 from store.serializers import MyTokenObtainPairSerializer, UserSerializer, UserSerializerWithToken
 from rest_framework.views import APIView, Response
 from rest_framework.views import status
@@ -20,7 +21,8 @@ class UserListView(APIView):
 
         try:
             user = User.objects.create(
-                first_name=data["name"],
+                first_name=data["first_name"],
+                last_name=data["last_name"],
                 email=data['email'],
                 username=data['email'],
                 password=make_password(data['password'])
@@ -39,6 +41,16 @@ class UserView(APIView):
         user = request.user
         serializer = UserSerializer(user)
         return Response(serializer.data)
+
+    def put(self, request):
+        user = request.user
+        data = request.data
+
+        serializer = UserSerializerWithToken(user)
+
+        user.password = make_password(data['password'])
+        user.save()
+        return(Response(serializer.data))
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
