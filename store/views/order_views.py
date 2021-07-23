@@ -1,8 +1,11 @@
+from django.db.models.fields import DateTimeCheckMixin
 from store.serializers import OrderSerializer
 from store.models import Order, OrderItem, Product, ShippingAddress
 from rest_framework.views import APIView, Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
+from rest_framework import serializers, status
+from datetime import datetime
+from django.utils import timezone
 
 
 class Orders(APIView):
@@ -58,6 +61,7 @@ class Orders(APIView):
 
 
 class OrderDetail(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, id):
         user = request.user
@@ -73,3 +77,18 @@ class OrderDetail(APIView):
                 return Response(status=status.HTTP_401_UNAUTHORIZED)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, id):
+        try:
+            order = Order.objects.get(id=id)
+            if request.data["action"] == "pay":
+                order.is_paid = True
+                order.paid_at = datetime.now(tz=timezone.utc)
+            elif request.data["action"] == "deliver":
+                order.is_delivered = True
+                order.delivered_at = datetime.now(tz=timezone.utc)
+            order.save()
+            serializer = OrderSerializer(order)
+            return Response(serializer.data)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
