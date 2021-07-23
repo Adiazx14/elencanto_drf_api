@@ -121,9 +121,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "elencantodb",
-        "USER": "postgres",
-        "PASSWORD": "14189114",
-        "HOST": "localhost",
+        "USER": "adiazx14",
+        "PASSWORD": "virtusomniavincit",
+        "HOST": "elencanto-identifier.cozmnuibnkur.us-east-2.rds.amazonaws.com",
         "PORT": "5432",
     }
 }

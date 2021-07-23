@@ -53,7 +53,7 @@ class OrderItem(models.Model):
     image = models.CharField(max_length=400, null=True, blank=True)
 
     def __str__(self):
-        return str(self.product)
+        return str(self.product)+" in Order: "+str(self.order)
 
 
 class ShippingAddress(models.Model):
