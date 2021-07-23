@@ -63,3 +63,6 @@ class ShippingAdress(models.Model):
     zipcode = models.CharField(max_length=300, blank=True, null=True)
     shipping_price = models.DecimalField(
         decimal_places=2, max_digits=7, blank=True, null=True)
+
+    def __str__(self):
+        return self.address

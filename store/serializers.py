@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db.models import fields
 from rest_framework import serializers
-from .models import Product
+from .models import Order, OrderItem, Product, ShippingAdress
 from .models import Category
 from rest_framework.serializers import ModelSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -47,3 +47,42 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['email'] = self.user.email
 
         return data
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = '__all__'
+
+
+class ShippingAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShippingAdress
+        fields = '__all__'
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    order_items = serializers.SerializerMethodField(read_only=True)
+    user = serializers.SerializerMethodField(read_only=True)
+    shipping_address = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Order
+        fields = '__all__'
+
+    def get_order_items(self, obj):
+        items = obj.orderitem_set.all()
+        serializer = OrderItemSerializer(items, many=True)
+        return serializer.data
+
+    def get_user(self, obj):
+        user = obj.user
+        serializer = UserSerializer(user)
+        return serializer.data
+
+    def get_shipping_address(self, obj):
+        try:
+            address = ShippingAddressSerializer(obj.shipping_address)
+        except:
+            address = False
+        return address
