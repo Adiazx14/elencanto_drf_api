@@ -1,5 +1,5 @@
 from store.serializers import OrderSerializer
-from store.models import Order, OrderItem, Product, ShippingAdress
+from store.models import Order, OrderItem, Product, ShippingAddress
 from rest_framework.views import APIView, Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
@@ -25,7 +25,7 @@ class Orders(APIView):
 
             )
 
-            ShippingAdress.objects.create(
+            ShippingAddress.objects.create(
                 order=order,
                 address=data['shipping_address']['address'],
                 city=data['shipping_address']['city'],
@@ -51,5 +51,25 @@ class Orders(APIView):
 
     def get(self, request):
         orders = Order.objects.all()
+        order = Order.objects.get(id=2)
+        print(order.shippingaddress)
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
+
+
+class OrderDetail(APIView):
+
+    def get(self, request, id):
+        user = request.user
+        try:
+            order = Order.objects.get(id=id)
+
+            if order.user == user or user.is_staff:
+                serializer = OrderSerializer(order)
+
+                return Response(serializer.data)
+
+            else:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)

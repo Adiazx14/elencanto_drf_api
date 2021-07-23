@@ -46,18 +46,19 @@ class Order(models.Model):
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
     qty = models.IntegerField(blank=True, null=True, default=1)
     price = models.DecimalField(
         max_digits=7, decimal_places=2, null=True, blank=True)
     image = models.CharField(max_length=400, null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return str(self.product)
 
 
-class ShippingAdress(models.Model):
+class ShippingAddress(models.Model):
     order = models.OneToOneField(
-        Order, on_delete=models.CASCADE, blank=True, null=True)
+        Order, on_delete=models.SET_NULL, blank=True, null=True)
     address = models.CharField(max_length=300, blank=True, null=True)
     city = models.CharField(max_length=300, blank=True, null=True)
     zipcode = models.CharField(max_length=300, blank=True, null=True)
