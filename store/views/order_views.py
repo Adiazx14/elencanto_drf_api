@@ -92,3 +92,13 @@ class OrderDetail(APIView):
             return Response(serializer.data)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserOrders(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        orders = user.order_set.all()
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data)
