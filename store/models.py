@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.fields.files import ImageField
 from django.contrib.auth.models import User
-from django.db.models.fields.related import ForeignKey
+from django.db.models.fields.related import ForeignKey, OneToOneField
 # Create your models here.
 
 
@@ -53,3 +53,13 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ShippingAdress(models.Model):
+    order = models.OneToOneField(
+        Order, on_delete=models.CASCADE, blank=True, null=True)
+    address = models.CharField(max_length=300, blank=True, null=True)
+    city = models.CharField(max_length=300, blank=True, null=True)
+    zipcode = models.CharField(max_length=300, blank=True, null=True)
+    shipping_price = models.DecimalField(
+        decimal_places=2, max_digits=7, blank=True, null=True)
