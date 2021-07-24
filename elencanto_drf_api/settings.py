@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "store",
-    "rest_framework"
+    "rest_framework",
+    'storages'
 ]
 
 REST_FRAMEWORK = {
@@ -182,4 +183,10 @@ MEDIA_ROOT = 'static/images'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
+# aws s3
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = "AKIARCQS7ZHU6WYREWTQ"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = 'elencanto-bucket'
+AWS_QUERYSTRING_AUTH = False
