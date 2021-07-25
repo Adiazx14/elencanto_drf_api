@@ -13,3 +13,4 @@ media
 *$py.class
 /static
 /env
+/staticfiles

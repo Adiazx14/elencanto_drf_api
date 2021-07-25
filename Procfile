@@ -1,0 +1,1 @@
+web: gunicorn elencanto_drf_api.wsgi --log-file -
