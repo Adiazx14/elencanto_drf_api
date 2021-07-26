@@ -12,4 +12,6 @@ media
 *.py[cod] 
 *$py.class
 /env
+/staticfiles
+/static
 
