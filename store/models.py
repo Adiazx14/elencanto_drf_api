@@ -30,7 +30,7 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    ImageField()
+    image = ImageField(null=True, blank=True)
 
 
 class Order(models.Model):
