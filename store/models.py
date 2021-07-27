@@ -14,14 +14,14 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    category = models.ForeignKey(
-        Category, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(Category,
+                                 on_delete=models.SET_NULL,
+                                 null=True)
     name = models.CharField(max_length=200)
     icon = ImageField(null=True, blank=True)
     price = models.DecimalField(decimal_places=2, max_digits=7)
     countInStock = models.IntegerField()
-    createdAt = models.DateTimeField(
-        auto_now_add=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.name}, Category: {self.category}"
@@ -30,8 +30,10 @@ class Product(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     payment_method = models.CharField(max_length=100)
-    shipping_price = models.DecimalField(
-        max_digits=7, decimal_places=2, blank=True, null=True)
+    shipping_price = models.DecimalField(max_digits=7,
+                                         decimal_places=2,
+                                         blank=True,
+                                         null=True)
     total_price = models.DecimalField(max_digits=7, decimal_places=2)
     is_paid = models.BooleanField(default=False)
     paid_at = models.DateTimeField(null=True, blank=True)
@@ -48,22 +50,28 @@ class OrderItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
     qty = models.IntegerField(blank=True, null=True, default=1)
-    price = models.DecimalField(
-        max_digits=7, decimal_places=2, null=True, blank=True)
+    price = models.DecimalField(max_digits=7,
+                                decimal_places=2,
+                                null=True,
+                                blank=True)
     image = models.CharField(max_length=400, null=True, blank=True)
 
     def __str__(self):
-        return str(self.product)+" in Order: "+str(self.order)
+        return str(self.product) + " in Order: " + str(self.order)
 
 
 class ShippingAddress(models.Model):
-    order = models.OneToOneField(
-        Order, on_delete=models.SET_NULL, blank=True, null=True)
+    order = models.OneToOneField(Order,
+                                 on_delete=models.SET_NULL,
+                                 blank=True,
+                                 null=True)
     address = models.CharField(max_length=300, blank=True, null=True)
     city = models.CharField(max_length=300, blank=True, null=True)
     zipcode = models.CharField(max_length=300, blank=True, null=True)
-    shipping_price = models.DecimalField(
-        decimal_places=2, max_digits=7, blank=True, null=True)
+    shipping_price = models.DecimalField(decimal_places=2,
+                                         max_digits=7,
+                                         blank=True,
+                                         null=True)
 
     def __str__(self):
         return self.address
