@@ -18,7 +18,7 @@ class Product(models.Model):
                                  on_delete=models.SET_NULL,
                                  null=True)
     name = models.CharField(max_length=200)
-    description = models.CharField(max_length=600, blank=True, null=True)
+    description = models.TextField(blank=True)
     icon = ImageField(null=True, blank=True)
     price = models.DecimalField(decimal_places=2, max_digits=7)
     countInStock = models.IntegerField()
@@ -71,9 +71,9 @@ class ShippingAddress(models.Model):
                                  on_delete=models.SET_NULL,
                                  blank=True,
                                  null=True)
-    address = models.CharField(max_length=300, blank=True, null=True)
-    city = models.CharField(max_length=300, blank=True, null=True)
-    zipcode = models.CharField(max_length=300, blank=True, null=True)
+    address = models.CharField(max_length=300, blank=True)
+    city = models.CharField(max_length=300, blank=True)
+    zipcode = models.CharField(max_length=300, blank=True)
     shipping_price = models.DecimalField(decimal_places=2,
                                          max_digits=7,
                                          blank=True,
