@@ -41,10 +41,13 @@ class ProductSerializer(ModelSerializer):
         fields = "__all__"
 
     def get_images(self, obj):
-        #try:
-        images = obj.productimage_set.all()
-        serializer = ProductImageSerializer(images, many=True)
-        return serializer.data
+        try:
+            images = obj.productimage_set.all()
+            serializer = ProductImageSerializer(images, many=True)
+            images = serializer.data
+        except:
+            images = []
+        return images
 
 
 class ProductImageSerializer(ModelSerializer):
