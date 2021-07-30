@@ -24,3 +24,10 @@ class ProductDetail(APIView):
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)
         serializer = ProductSerializer(product)
         return Response(serializer.data)
+
+
+class ProductsByCategory(APIView):
+    def get(self, request, id):
+        products = Product.objects.filter(category=id)
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
