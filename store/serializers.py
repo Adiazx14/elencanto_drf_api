@@ -1,7 +1,8 @@
+from django.contrib.auth import models
 from django.contrib.auth.models import User
 from django.db.models import fields
 from rest_framework import serializers
-from .models import Order, OrderItem, Product, ShippingAddress
+from .models import Order, OrderItem, Product, ProductImage, ShippingAddress
 from .models import Category
 from rest_framework.serializers import ModelSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -9,7 +10,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UserSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'is_staff']
@@ -34,9 +34,23 @@ class CategorySerializer(ModelSerializer):
 
 
 class ProductSerializer(ModelSerializer):
+    images = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Product
         fields = "__all__"
+
+    def get_images(self, obj):
+        #try:
+        images = obj.productimage_set.all()
+        serializer = ProductImageSerializer(images, many=True)
+        return serializer.data
+
+
+class ProductImageSerializer(ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = '__all__'
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
