@@ -17,7 +17,8 @@ class Orders(APIView):
         order_items = data['order_items']
 
         if order_items and len(order_items == 0):
-            return Response({"message": "There are no items"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": "There are no items"},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         else:
             order = Order.objects.create(
@@ -25,7 +26,6 @@ class Orders(APIView):
                 shipping_price=data["shipping_price"],
                 total_price=data["total_price"],
                 payment_method=data['payment_method'],
-
             )
 
             ShippingAddress.objects.create(
@@ -38,13 +38,11 @@ class Orders(APIView):
         for i in order_items:
             product = Product.objects.get(id=i["product"])
 
-            item = OrderItem.objects.create(
-                product=product,
-                user=user,
-                qty=data['qty'],
-                image=data['product.image.url'],
-                price=data['price']
-            )
+            item = OrderItem.objects.create(product=product,
+                                            user=user,
+                                            qty=data['qty'],
+                                            image=data['product.image.url'],
+                                            price=data['price'])
 
             product['countInStock'] -= item.qty
             product.save()

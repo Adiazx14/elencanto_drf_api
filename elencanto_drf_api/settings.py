@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     "django.contrib.admin", "django.contrib.auth",
     "django.contrib.contenttypes", "django.contrib.sessions",
     "django.contrib.messages", "django.contrib.staticfiles", "store",
-    "rest_framework", 'storages'
+    "corsheaders", "rest_framework", 'storages'
 ]
 
 REST_FRAMEWORK = {
@@ -65,6 +65,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = "elencanto_drf_api.urls"
@@ -158,3 +160,14 @@ AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = 'elencanto-bucket'
 AWS_QUERYSTRING_AUTH = False
+
+#cors
+
+CORS_ALLOWED_ORIGINS = [
+    "https://el-encanto.vercel.app",
+    "https://el-encanto-git-main-frankperez-github.vercel.app",
+    "https://el-encanto-frankperez-github.vercel.app",
+    "https://el-encanto-frankperez-github.vercel.app"
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
