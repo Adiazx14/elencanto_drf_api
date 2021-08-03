@@ -25,11 +25,11 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
+    "DATETIME_FORMAT":
+    "%-m:%-d:%Y, at %H:%M",
     'DEFAULT_AUTHENTICATION_CLASSES':
     ('rest_framework_simplejwt.authentication.JWTAuthentication', )
 }
-
-...
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
@@ -138,9 +138,8 @@ TIME_ZONE = "UTC"
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
+DATETIME_FORMAT = "%-m %-d %Y, at %-H %-M"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
