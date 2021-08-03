@@ -51,7 +51,8 @@ class Orders(APIView):
             return Response(serializer.data)
 
     def get(self, request):
-        orders = Order.objects.all()
+        user = request.user
+        orders = user.order_set.all()
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
