@@ -10,11 +10,13 @@ class ProductImageInline(admin.TabularInline):
     model = ProductImage
 
 
+class ShippingAdressInline(admin.TabularInline):
+    model = ShippingAddress
+
+
 class OrderAdmin(admin.ModelAdmin):
     model = Order
-    inlines = [
-        OrderItemInline,
-    ]
+    inlines = [OrderItemInline, ShippingAdressInline]
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -26,4 +28,3 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Category)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Order, OrderAdmin)
-admin.site.register(ShippingAddress)
