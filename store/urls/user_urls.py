@@ -7,5 +7,5 @@ urlpatterns = [
          name='token_obtain_pair'),
     path('profile/', views.UserView.as_view()),
     path('', views.UserListView.as_view()),
-    path('register', views.UserRegister.as_view()),
+    path('register/', views.UserRegister.as_view()),
 ]
