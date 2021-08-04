@@ -9,8 +9,6 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 
 class UserListView(APIView):
-    permission_classes = [IsAdminUser]
-
     def get(self, request):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
@@ -20,13 +18,12 @@ class UserListView(APIView):
         data = request.data
 
         try:
-            user = User.objects.create(
-                first_name=data["first_name"],
-                last_name=data["last_name"],
-                email=data['email'],
-                username=data['email'],
-                password=make_password(data['password'])
-            )
+            user = User.objects.create(first_name=data["first_name"],
+                                       last_name=data["last_name"],
+                                       email=data['email'],
+                                       username=data['email'],
+                                       password=make_password(
+                                           data['password']))
             serializer = UserSerializerWithToken(user)
             return Response(serializer.data)
 
@@ -50,7 +47,7 @@ class UserView(APIView):
 
         user.password = make_password(data['password'])
         user.save()
-        return(Response(serializer.data))
+        return (Response(serializer.data))
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
