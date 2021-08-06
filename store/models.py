@@ -75,6 +75,7 @@ class ShippingAddress(models.Model):
     address = models.CharField(max_length=300, blank=True)
     city = models.CharField(max_length=300, blank=True)
     zipcode = models.CharField(max_length=300, blank=True)
+    state = models.CharField(max_length=100, blank=True)
     shipping_price = models.DecimalField(decimal_places=2,
                                          max_digits=7,
                                          blank=True,
