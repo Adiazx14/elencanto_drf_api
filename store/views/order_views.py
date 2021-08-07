@@ -47,8 +47,8 @@ class Orders(APIView):
             product['countInStock'] -= item.qty
             product.save()
 
-            serializer = OrderSerializer(order)
-            return Response(serializer.data)
+        serializer = OrderSerializer(order)
+        return Response(serializer.data)
 
     def get(self, request):
         user = request.user
