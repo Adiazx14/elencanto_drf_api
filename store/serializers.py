@@ -104,7 +104,8 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def get_shipping_address(self, obj):
         try:
-            address = ShippingAddressSerializer(obj.shippingaddress).data
+            address = ShippingAddressSerializer(
+                obj.shippingaddress_set.all()[0]).data
         except:
             address = {}
         return address
