@@ -1,5 +1,5 @@
 from django.db.models.fields import DateTimeCheckMixin
-from store.serializers import OrderSerializer
+from store.serializers import OrderSerializer, ShippingAddressSerializer
 from store.models import Order, OrderItem, Product, ShippingAddress
 from rest_framework.views import APIView, Response
 from rest_framework.permissions import IsAuthenticated
@@ -98,4 +98,23 @@ class UserOrders(APIView):
         user = request.user
         orders = user.order_set.all()
         serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data)
+
+
+class ShippingAddressView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        addresses = ShippingAddress.objects.all()
+        serializer = ShippingAddressSerializer(addresses, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        data = request.data
+        address = ShippingAddress.objects.create(user=request.user,
+                                                 street=data['street'],
+                                                 city=data["city"],
+                                                 zipcode=data["zipcode"],
+                                                 state=data["state"])
+        serializer = ShippingAddressSerializer(address)
         return Response(serializer.data)
