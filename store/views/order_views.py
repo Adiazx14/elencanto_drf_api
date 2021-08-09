@@ -112,7 +112,7 @@ class ShippingAddressView(APIView):
     def post(self, request):
         data = request.data
         address = ShippingAddress.objects.create(user=request.user,
-                                                 street=data['street'],
+                                                 address=data['address'],
                                                  city=data["city"],
                                                  zipcode=data["zipcode"],
                                                  state=data["state"])
