@@ -105,7 +105,7 @@ class ShippingAddressView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        addresses = ShippingAddress.objects.all()
+        addresses = request.user.shippingaddress_set.all()
         serializer = ShippingAddressSerializer(addresses, many=True)
         return Response(serializer.data)
 
@@ -117,4 +117,9 @@ class ShippingAddressView(APIView):
                                                  zipcode=data["zipcode"],
                                                  state=data["state"])
         serializer = ShippingAddressSerializer(address)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def delete(self, request):
+        address = ShippingAddress.objects.get(id=request.data["id"])
+        address.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

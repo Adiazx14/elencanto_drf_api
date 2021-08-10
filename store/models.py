@@ -84,6 +84,7 @@ class ShippingAddress(models.Model):
                                          max_digits=7,
                                          blank=True,
                                          null=True)
+    is_default = models.BooleanField(default=False)
 
     def __str__(self):
         return self.address

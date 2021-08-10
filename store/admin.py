@@ -1,4 +1,5 @@
 from .models import Category, Order, OrderItem, Product, ProductImage, ShippingAddress
+from django.contrib.auth.models import User
 from django.contrib import admin
 
 
@@ -27,4 +28,5 @@ class ProductAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Category)
 admin.site.register(Product, ProductAdmin)
+admin.site.register(ShippingAddress)
 admin.site.register(Order, OrderAdmin)
