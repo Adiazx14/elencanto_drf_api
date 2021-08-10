@@ -1,3 +1,4 @@
+import re
 from django.db.models.fields import DateTimeCheckMixin
 from store.serializers import OrderSerializer, ShippingAddressSerializer
 from store.models import Order, OrderItem, Product, ShippingAddress
@@ -105,6 +106,7 @@ class ShippingAddressView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+
         addresses = request.user.shippingaddress_set.all()
         serializer = ShippingAddressSerializer(addresses, many=True)
         return Response(serializer.data)
@@ -119,7 +121,33 @@ class ShippingAddressView(APIView):
         serializer = ShippingAddressSerializer(address)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def delete(self, request):
-        address = ShippingAddress.objects.get(id=request.data["id"])
+
+class ShippingAddressDetail(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get_address(self, id):
+        try:
+            address = ShippingAddress.objects.get(id=id)
+            return address
+        except ShippingAddress.DoesNotExist():
+            return Response(status=status.HTTP_404_BAD_REQUEST)
+
+    def get(self, request, id):
+        address = self.get_address(id)
+        serializer = ShippingAddressSerializer(address)
+        return Response(serializer.data)
+
+    def put(self, request, id):
+        address = self.get_address(id)
+        serializer = ShippingAddressSerializer(address, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        address = self.get_address(id)
         address.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
