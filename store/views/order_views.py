@@ -117,7 +117,9 @@ class ShippingAddressView(APIView):
                                                  address=data['street'],
                                                  city=data["city"],
                                                  zipcode=data["zipcode"],
-                                                 state=data["state"])
+                                                 state=data["state"],
+                                                 is_default=data["default"])
+
         serializer = ShippingAddressSerializer(address)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
