@@ -27,7 +27,8 @@ class UserRegister(APIView):
                                        email=data['email'],
                                        username=data['email'],
                                        password=make_password(
-                                           data['password']))
+                                           data['password']),
+                                       is_default=data["default"])
             serializer = UserSerializerWithToken(user)
             return Response(serializer.data)
 
