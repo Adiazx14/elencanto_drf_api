@@ -17,23 +17,22 @@ class Orders(APIView):
         data = request.data
         order_items = data['order_items']
 
-        if order_items and len(order_items == 0):
+        if order_items and len(order_items) == 0:
             return Response({"message": "There are no items"},
                             status=status.HTTP_400_BAD_REQUEST)
 
         else:
             order = Order.objects.create(
                 user=user,
-                shipping_price=data["shipping_price"],
                 total_price=data["total_price"],
-                payment_method=data['payment_method'],
             )
 
             ShippingAddress.objects.create(
                 order=order,
-                address=data['shipping_address']['address'],
+                address=data['shipping_address']['street'],
                 city=data['shipping_address']['city'],
                 zipcode=data['shipping_address']['zipcode'],
+                state=data['shipping_address']['state'],
             )
 
         for i in order_items:
@@ -41,11 +40,11 @@ class Orders(APIView):
 
             item = OrderItem.objects.create(product=product,
                                             user=user,
-                                            qty=data['qty'],
-                                            image=data['product.image.url'],
-                                            price=data['price'])
+                                            qty=i['qty'],
+                                            image=i['image'],
+                                            price=i['price'])
 
-            product['countInStock'] -= item.qty
+            product.countInStock -= item.qty
             product.save()
 
         serializer = OrderSerializer(order)
