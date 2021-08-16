@@ -44,7 +44,7 @@ class Orders(APIView):
                                             image=i['image'],
                                             price=i['price'])
 
-            product.countInStock -= item.qty
+            product.countInStock -= int(item.qty)
             product.save()
 
         serializer = OrderSerializer(order)

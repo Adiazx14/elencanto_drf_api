@@ -87,4 +87,4 @@ class ShippingAddress(models.Model):
     is_default = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.address + " (" + self.user.username + ")"
+        return self.address  #+ " (" + self.user.username + ")"
