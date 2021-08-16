@@ -29,6 +29,7 @@ class Orders(APIView):
 
             ShippingAddress.objects.create(
                 order=order,
+                user=user,
                 address=data['shipping_address']['street'],
                 city=data['shipping_address']['city'],
                 zipcode=data['shipping_address']['zipcode'],
