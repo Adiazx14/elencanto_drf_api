@@ -94,12 +94,9 @@ class OrderDetail(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, id):
-        try:
-            order = Order.objects.get(id)
-            order.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        except Order.DoesNotExist():
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        order = Order.objects.get(id=id)
+        order.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class UserOrders(APIView):
