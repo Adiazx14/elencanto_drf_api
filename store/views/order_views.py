@@ -41,6 +41,7 @@ class Orders(APIView):
 
             item = OrderItem.objects.create(product=product,
                                             user=user,
+                                            order=order,
                                             qty=i['qty'],
                                             image=i['image'],
                                             price=i['price'])
