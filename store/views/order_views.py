@@ -1,4 +1,5 @@
 import re
+from django.db.models import deletion
 from django.db.models.fields import DateTimeCheckMixin
 from store.serializers import OrderSerializer, ShippingAddressSerializer
 from store.models import Order, OrderItem, Product, ShippingAddress
@@ -90,6 +91,14 @@ class OrderDetail(APIView):
             serializer = OrderSerializer(order)
             return Response(serializer.data)
         except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        try:
+            order = Order.objects.get(id)
+            order.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Order.DoesNotExist():
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
