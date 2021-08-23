@@ -41,6 +41,7 @@ class Order(models.Model):
                                          blank=True,
                                          null=True)
     total_price = models.DecimalField(max_digits=7, decimal_places=2)
+    is_approved = models.BooleanField(default=False)
     is_paid = models.BooleanField(default=False)
     paid_at = models.DateTimeField(null=True, blank=True)
     is_delivered = models.BooleanField(default=False)
