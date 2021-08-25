@@ -22,13 +22,13 @@ class UserRegister(APIView):
         data = request.data
 
         try:
-            user = User.objects.create(first_name=data["first_name"],
-                                       last_name=data["last_name"],
-                                       email=data['email'],
-                                       username=data['email'],
-                                       password=make_password(
-                                           data['password']),
-                                       is_default=data["default"])
+            user = User.objects.create(
+                first_name=data["first_name"],
+                last_name=data["last_name"],
+                email=data['email'],
+                username=data['email'],
+                password=make_password(data['password']),
+            )
             serializer = UserSerializerWithToken(user)
             return Response(serializer.data)
 
