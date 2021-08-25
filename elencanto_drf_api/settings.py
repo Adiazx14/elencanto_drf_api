@@ -166,7 +166,6 @@ CORS_ALLOWED_ORIGINS = [
     "https://el-encanto.vercel.app",
     "https://el-encanto-git-main-frankperez-github.vercel.app",
     "https://el-encanto-frankperez-github.vercel.app",
-    "https://el-encanto-frankperez-github.vercel.app"
+    "https://el-encanto-frankperez-github.vercel.app",
+    "https://elencantoliquidation.com"
 ]
-
-CORS_ALLOW_ALL_ORIGINS = True
