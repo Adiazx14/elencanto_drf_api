@@ -31,10 +31,15 @@ class UserSerializerWithToken(UserSerializer):
 
 
 class CategorySerializer(ModelSerializer):
+    products = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Category
         fields = '__all__'
 
+    def get_products(self, obj):
+        products = obj.product_set.all()
+        serializer = ProductSerializer(products, many=True)
+        return serializer.data
 
 class ProductSerializer(ModelSerializer):
     images = serializers.SerializerMethodField(read_only=True)

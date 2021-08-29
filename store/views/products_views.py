@@ -28,6 +28,6 @@ class ProductDetail(APIView):
 
 class ProductsByCategory(APIView):
     def get(self, request, id):
-        products = Product.objects.filter(category=id)
-        serializer = ProductSerializer(products, many=True)
+        category = Category.objects.get(id=id)
+        serializer = CategorySerializer(category)
         return Response(serializer.data)
