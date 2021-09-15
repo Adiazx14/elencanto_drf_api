@@ -13,7 +13,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'elencanto-drf-api.herokuapp.com', 'django-env.eba-mpfqdpns.us-west-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['localhost', 'elencantoapi.com', 'django-env.eba-mpfqdpns.us-west-2.elasticbeanstalk.com']
 
 # Application definition
 
