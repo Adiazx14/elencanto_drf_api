@@ -44,6 +44,7 @@ class Orders(APIView):
                                             user=user,
                                             order=order,
                                             qty=i['qty'],
+                                            name=product.name,
                                             image=i['image'],
                                             price=i['price'])
 
