@@ -56,7 +56,7 @@ class Orders(APIView):
 
     def get(self, request):
         user = request.user
-        orders = user.order_set.all()
+        orders = user.order_set.all().order_by("-id")
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
