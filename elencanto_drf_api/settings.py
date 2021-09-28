@@ -189,5 +189,3 @@ CORS_ALLOWED_ORIGINS = [
     "https://elencantoliquidation.com"
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
-
